@@ -38,8 +38,8 @@
 ### 1️⃣ On your laptop
 
 ```bash
-git clone https://github.com/<your-user>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/aakash1256lklkl/phone-remote.git
+cd phone-remote
 
 # Windows
 pip install -r requirements.txt
