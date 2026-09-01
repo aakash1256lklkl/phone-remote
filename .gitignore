@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Runtime artifacts (pairing/QR output, logs)
+_o.txt
+_e.txt
+*.log
+
+# Local tooling
+.playwright-mcp/
+chrome-test/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Editors
+.idea/
+.vscode/

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Phone Remote</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ======================= CONNECT SCREEN ======================= -->
+  <section id="screen-connect" class="screen">
+    <div class="logo">📡</div>
+    <h1>Phone Remote</h1>
+    <p class="subtitle">Control your laptop's mouse & keyboard</p>
+    <input id="pair-input" class="pair-input" type="text" maxlength="4"
+           inputmode="numeric" placeholder="Pairing code" autocapitalize="off" autocomplete="off">
+    <button id="pair-btn" class="btn primary">Connect</button>
+    <p id="pair-status" class="status"></p>
+    <p class="hint">Check the black laptop window for the 4-digit code.</p>
+  </section>
+
+  <!-- ======================= CONTROL SCREEN ======================= -->
+  <section id="screen-control" class="screen hidden">
+
+    <!-- Tab bar -->
+    <nav class="tabs">
+      <button id="tab-mouse" class="tab active" data-tab="mouse">🖱️</button>
+      <button id="tab-keyboard" class="tab" data-tab="keyboard">⌨️</button>
+      <button id="disconnect" class="tab disconnect" title="Disconnect">⏻</button>
+    </nav>
+
+    <!-- Mouse pad (for touch control; also the visual state area) -->
+    <div class="content">
+      <!-- MOUSE MODE -->
+      <div id="panel-mouse" class="panel active">
+        <div id="gyro-badge" class="gyro-badge">Gyro: <span id="gyro-state">scanning…</span></div>
+
+        <!-- Gyroscope control area (pointer-events none; it's tilt-controlled) -->
+        <div id="gyro-pad" class="gyro-pad">
+          <div class="gyro-cross">
+            <div class="gyro-handle" id="gyro-handle"></div>
+          </div>
+          <p class="gyro-tip">Tilt phone to move cursor</p>
+        </div>
+
+        <!-- Touch fallback pad (if gyro unavailable) -->
+        <div id="touch-pad-wrap" class="touch-pad-wrap hidden">
+          <div id="touch-pad" class="touch-pad">
+            <p class="touch-tip">Tap=Right · drag=move · ▲▼ scroll · 2-finger pinch=zoom</p>
+            <div class="pad-btn pad-left">L</div>
+            <div class="pad-btn pad-right">R</div>
+          </div>
+          <div class="pad-scroll">
+            <button id="pad-scroll-up" class="pad-arrow" aria-label="Scroll up">▲</button>
+            <button id="pad-scroll-down" class="pad-arrow" aria-label="Scroll down">▼</button>
+          </div>
+        </div>
+
+        <div class="mouse-controls">
+          <label class="sensitivity">
+            Sensitivity
+            <input id="sens" type="range" min="10" max="80" value="20">
+            <span id="sens-val">20</span>
+          </label>
+          <label class="sensitivity">
+            Scroll
+            <input id="scrollsens" type="range" min="5" max="60" step="5" value="15">
+            <span id="scroll-val">15</span>
+          </label>
+          <div class="button-row">
+            <button id="btn-left" class="btn mouse">Left</button>
+            <button id="btn-right" class="btn mouse">Right</button>
+            <button id="btn-double" class="btn mouse">Double</button>
+            <button id="btn-tapclk" class="btn mouse" title="Cycle tap action: Right / Left / Off">Tap=Right</button>
+            <button id="btn-wheel" class="btn mouse">🖱️ Scroll</button>
+            <button id="btn-recenter" class="btn mouse recenter">⌖</button>
+          </div>
+          <div class="button-row invert-row">
+            <button id="btn-invert-x" class="btn mouse invert" title="Invert horizontal tilt">↔</button>
+            <button id="btn-invert-y" class="btn mouse invert" title="Invert vertical tilt">↕</button>
+            <span class="invert-label">Invert axis</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEYBOARD MODE -->
+      <div id="panel-keyboard" class="panel">
+        <!-- Extended keys toggle -->
+        <div class="kb-toolbar">
+          <button id="ext-toggle" class="btn ext-toggle">＋ Extended keys</button>
+          <span class="status-dot" id="conn-dot" title="Connected"></span>
+          <span id="lat" class="lat">--</span>
+        </div>
+
+        <!-- Extended keys overlay -->
+        <div id="ext-keys" class="ext-keys hidden">
+          <div class="ext-row">
+            <button class="ek" data-key="escape">Esc</button>
+            <button class="ek" data-key="f1">F1</button>
+            <button class="ek" data-key="f2">F2</button>
+            <button class="ek" data-key="f3">F3</button>
+            <button class="ek" data-key="f4">F4</button>
+            <button class="ek" data-key="f5">F5</button>
+            <button class="ek" data-key="f6">F6</button>
+            <button class="ek" data-key="f7">F7</button>
+            <button class="ek" data-key="f8">F8</button>
+            <button class="ek" data-key="f9">F9</button>
+            <button class="ek" data-key="f10">F10</button>
+            <button class="ek" data-key="f11">F11</button>
+            <button class="ek" data-key="f12">F12</button>
+          </div>
+          <div class="ext-row">
+            <button class="ek" data-hotkey='["ctrl","c"]'>Ctrl+C</button>
+            <button class="ek" data-hotkey='["ctrl","v"]'>Ctrl+V</button>
+            <button class="ek" data-hotkey='["ctrl","x"]'>Ctrl+X</button>
+            <button class="ek" data-hotkey='["ctrl","a"]'>Ctrl+A</button>
+            <button class="ek" data-hotkey='["ctrl","z"]'>Ctrl+Z</button>
+            <button class="ek" data-hotkey='["ctrl","y"]'>Ctrl+Y</button>
+            <button class="ek" data-hotkey='["ctrl","s"]'>Ctrl+S</button>
+            <button class="ek" data-hotkey='["alt","tab"]'>Alt+Tab</button>
+            <button class="ek" data-hotkey='["win","d"]'>Win+D</button>
+            <button class="ek" data-key="printscreen">PrtSc</button>
+          </div>
+          <div class="ext-row">
+            <button class="ek" data-key="insert">Ins</button>
+            <button class="ek" data-key="delete">Del</button>
+            <button class="ek" data-key="home">Home</button>
+            <button class="ek" data-key="end">End</button>
+            <button class="ek" data-key="pageup">PgUp</button>
+            <button class="ek" data-key="pagedown">PgDn</button>
+            <button class="ek nav" data-key="up">▲</button>
+            <button class="ek nav" data-key="left">◀</button>
+            <button class="ek nav" data-key="down">▼</button>
+            <button class="ek nav" data-key="right">▶</button>
+          </div>
+        </div>
+
+        <!-- GBoard typing trigger -->
+        <div class="gb">
+          <p class="gb-tip">Tap to open GBoard, then type. Your keystrokes go to the laptop.</p>
+          <input id="gb-input" class="gb-input" type="text" placeholder="Type here…"
+                 inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off">
+          <div class="gb-actions">
+            <button id="gb-enter" class="btn mouse">⏎ Enter</button>
+            <button id="gb-backspace" class="btn mouse">⌫</button>
+            <button id="gb-tab" class="btn mouse">Tab ⇥</button>
+          </div>
+          <p class="gb-note">Deleting text? Use <b>Ctrl+A</b> then type to replace, or the ⌫ key.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script src="app.js"></script>
+</body>
+</html>
