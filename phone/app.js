@@ -282,7 +282,7 @@ const PAD_GAIN = 0.6;       // screens per full pad swipe at sens=10
 const TOUCH_ACCEL = 2.0;    // extra gain on fast flicks
 const TAP_MOVE = 12;        // px of movement that turns a tap into a drag
 const TAP_MS = 600;         // max tap duration (both presses must lift together)
-const PINCH_STEP = 14;      // px of finger-spread change per zoom notch
+const PINCH_STEP = 10;      // px of finger-spread change per zoom notch
 let padPtrs = new Map();    // pointerId -> {entered, moved, x, y}
 let padTouching = false;    // single finger dragging the cursor
 let padPending = false;     // a move flush is scheduled
@@ -294,6 +294,24 @@ let tapBtn = 'right';       // what a pad tap clicks: 'left' or 'right'
 let lastTapCheck = null;    // shared timing for two-finger tap detection
 
 function padClamp(v) { return Math.max(0, Math.min(1, v)); }
+
+// brief on-pad feedback so a pinch visibly registers
+let zoomFlashTimer = null;
+function zoomFlash(dir) {
+  const b = $('zoom-badge');
+  b.textContent = dir > 0 ? '🔍 +' : '🔍 −';
+  b.classList.remove('hidden');
+  clearTimeout(zoomFlashTimer);
+  zoomFlashTimer = setTimeout(() => b.classList.add('hidden'), 260);
+}
+
+// stop the browser from hijacking two-finger gestures (page zoom / scroll).
+// touch-action:none covers modern Chrome; these are belt-and-suspenders for
+// iOS Safari and older WebViews that ignore it.
+['gesturestart', 'gesturechange', 'gestureend'].forEach((evt) =>
+  padEl.addEventListener(evt, (e) => e.preventDefault()));
+padEl.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+padEl.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 
 function flushPad() {
   padPending = false;
@@ -362,10 +380,12 @@ padEl.addEventListener('pointermove', (e) => {
         while (padPinchAccum > PINCH_STEP) {
           padPinchAccum -= PINCH_STEP;
           send({ type: 'zoom', dir: 1 });
+          zoomFlash(1);
         }
         while (padPinchAccum < -PINCH_STEP) {
           padPinchAccum += PINCH_STEP;
           send({ type: 'zoom', dir: -1 });
+          zoomFlash(-1);
         }
       }
       padPinch = d;

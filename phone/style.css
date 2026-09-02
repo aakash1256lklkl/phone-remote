@@ -170,6 +170,28 @@ h1 { font-size: 26px; margin-bottom: 4px; }
 }
 .touch-pad.pad-press { background: #2a2f3a; }
 
+/* Zoom feedback badge (flashes while pinching) */
+.zoom-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 5;
+  animation: zoom-pop 0.26s ease;
+}
+@keyframes zoom-pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
 /* Up/Down scroll column on the right of the trackpad */
 .pad-scroll {
   display: flex;
