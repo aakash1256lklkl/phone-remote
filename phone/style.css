@@ -311,6 +311,22 @@ h1 { font-size: 26px; margin-bottom: 4px; }
 .ek.nav { font-size: 16px; }
 .ek:active, .ek.pressed { background: var(--accent); }
 
+/* Custom combo row */
+.combo-row { align-items: stretch; }
+.combo-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--panel);
+  border: 2px solid #333b4d;
+  border-radius: 10px;
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.combo-input::placeholder { color: var(--muted); }
+.combo-input:focus { border-color: var(--accent); outline: none; }
+.combo-row .btn { flex: 0 0 auto; }
+
 /* GBoard area */
 .gb { margin-top: 6px; }
 .gb-tip { color: var(--muted); font-size: 13px; margin-bottom: 10px; }

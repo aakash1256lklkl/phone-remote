@@ -27,7 +27,7 @@
 | 🔍 | **Pinch to zoom** | Two-finger pinch sends **Ctrl+wheel** — zooms in browsers, maps, PDFs, image viewers. |
 | ⬆️⬇️ | **Scroll arrows** | Tap or hold ▲ / ▼ to scroll, with a speed slider up to **60 notches per press**. |
 | ⌨️ | **GBoard keyboard** | Type with your normal phone keyboard — autocorrect and swipe-typing all work. |
-| 🔢 | **Extended keys** | F1–F12, arrows, Ctrl‑combos, Alt+Tab, Win+D, Esc, Delete and more. |
+| 🔢 | **Extended keys** | F1–F12, arrows, Ctrl‑combos, Alt+Tab, Win shortcuts, custom combos, Esc, Delete and more. |
 | ⚡ | **Low latency** | Watch the real‑time round‑trip meter — typically well under 10 ms on Wi‑Fi. |
 | 🔐 | **Pairing** | A fresh 4‑digit code is printed each run; the phone remembers it and auto‑reconnects. |
 
@@ -96,7 +96,8 @@ If the gyro is blocked (Android Chrome blocks it on plain `http`), the app **aut
 
 - Tap the **Type here…** box to open GBoard — your autocorrect and swipe‑typing go straight to the laptop.
 - What you type stays visible in the box while you're typing and only clears when you **switch away** (or press ⏎).
-- Tap **＋ Extended keys** for the full laptop‑keyboard overlay: F‑keys, arrows, Esc, Delete, Home/End/PgUp/PgDn, Ctrl‑combos, Alt+Tab, Win+D, PrtSc, Enter / Backspace / Tab.
+- Tap **＋ Extended keys** for the full laptop‑keyboard overlay: F‑keys, arrows, Esc, Delete, Home/End/PgUp/PgDn, Ctrl‑combos, Alt+Tab, Win+D, PrtSc, Enter / Backspace / Tab, plus one‑tap **Win shortcuts** (Win+V clipboard, Win+E Explorer, Win+Tab, Win+⇧S screenshot, Ctrl+⇧Esc Task Manager, Win+I, Win+M, Win+L).
+- **Any shortcut you want:** type it in the *Custom combo* box (e.g. `win+v`, `ctrl+shift+esc`, `alt+tab`) and hit **Send** — aliases like `windows`, `control`, `esc`, `del`, `pgup` all work, and Enter sends too.
 - The **latency badge** in the toolbar shows round‑trip time — under 20 ms feels instant.
 
 ---

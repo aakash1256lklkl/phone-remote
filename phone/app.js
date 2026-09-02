@@ -603,6 +603,47 @@ document.querySelectorAll('.ek').forEach((btn) => {
   btn.addEventListener('click', keyTap);
 });
 
+/* Custom combo: type "win+v" / "ctrl+shift+esc" and hit Send */
+const COMBO_ALIASES = {
+  win: 'win', windows: 'win', cmd: 'win',
+  ctrl: 'ctrl', control: 'ctrl',
+  alt: 'alt', option: 'alt',
+  shift: 'shift',
+  esc: 'esc', escape: 'esc',
+  enter: 'enter', return: 'enter',
+  tab: 'tab', space: 'space', spc: 'space',
+  del: 'delete', backspace: 'backspace', bksp: 'backspace',
+  prtsc: 'printscreen', printscreen: 'printscreen', prtscr: 'printscreen',
+  home: 'home', end: 'end', insert: 'insert', ins: 'insert',
+  pageup: 'pageup', pgup: 'pageup', pagedown: 'pagedown', pgdn: 'pagedown',
+  up: 'up', down: 'down', left: 'left', right: 'right',
+  capslock: 'capslock', numlock: 'numlock', scrolllock: 'scrolllock',
+  pause: 'pause', break: 'pause'
+};
+for (let i = 1; i <= 12; i++) COMBO_ALIASES['f' + i] = 'f' + i;
+
+function parseCombo(str) {
+  return str.split('+')
+    .map((s) => {
+      const k = s.trim().toLowerCase();
+      if (COMBO_ALIASES[k]) return COMBO_ALIASES[k];
+      if (/^[a-z0-9]$/.test(k)) return k;   // single letters/digits pass through
+      return null;
+    })
+    .filter(Boolean);
+}
+
+function sendCombo() {
+  const keys = parseCombo($('combo-input').value);
+  if (!keys.length) return;
+  send({ type: 'hotkey', keys });
+  const btn = $('combo-send');
+  btn.classList.add('pressed');
+  setTimeout(() => btn.classList.remove('pressed'), 120);
+}
+$('combo-send').addEventListener('click', sendCombo);
+$('combo-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') sendCombo(); });
+
 /* ---- Start ----
    If the laptop QR was scanned, the URL carries ?code=NNNN — auto-fill it
    and pair automatically as soon as the socket opens. */
